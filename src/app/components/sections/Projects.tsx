@@ -40,7 +40,7 @@ export function Projects() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8">
         {projects.map((project, idx) => (
-          <PixelContainer key={idx} className="group hover:-translate-y-2 transition-transform duration-200 cursor-pointer flex flex-col">
+          <PixelContainer key={idx} tabIndex={0} role="button" className="group hover:-translate-y-2 transition-transform duration-200 cursor-pointer flex flex-col">
             <div className="w-full aspect-video bg-black border-4 border-[#C0C0C0] group-hover:border-[#00FF00] mb-4 flex items-center justify-center relative overflow-hidden transition-colors">
                <div className="absolute inset-0 bg-[#C0C0C0]/10 group-hover:bg-[#00FF00]/10" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)', backgroundSize: '8px 8px', backgroundPosition: '0 0, 4px 4px', opacity: 0.2 }} />
                <p className="font-['Press_Start_2P'] text-[10px] text-[#C0C0C0] group-hover:text-[#00FF00] z-10 transition-colors">

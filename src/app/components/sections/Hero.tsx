@@ -6,7 +6,7 @@ export function Hero() {
     <section className="min-h-screen flex items-center pt-20 pb-16 px-4 md:px-8 max-w-6xl mx-auto relative">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
         <div className="flex flex-col space-y-8 z-10">
-          <div className="inline-block bg-[#00FF00] text-black font-['Press_Start_2P'] text-[10px] uppercase px-3 py-1 border-2 border-black w-max mb-4 animate-pulse">
+          <div className="inline-block bg-[#00FF00] text-black font-['Press_Start_2P'] text-[10px] uppercase px-3 py-1 border-2 border-black w-max mb-4 motion-safe:animate-pulse">
             PLAYER 1 READY
           </div>
           

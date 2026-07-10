@@ -3,10 +3,10 @@ import { Linkedin, Github, Phone } from "lucide-react";
 
 export function Contact() {
   return (
-    <section className="py-24 px-4 relative overflow-hidden bg-gradient-to-b from-black to-[#0099FF]/20 border-t-4 border-[#0099FF]">
+    <section id="contact" className="py-24 px-4 relative overflow-hidden bg-gradient-to-b from-black to-[#0099FF]/20 border-t-4 border-[#0099FF]">
       <div className="max-w-4xl mx-auto text-center relative z-10 space-y-12">
         
-        <div className="inline-block animate-bounce">
+        <div className="inline-block motion-safe:animate-bounce" aria-hidden="true">
           <div className="w-24 h-24 mx-auto border-4 border-white bg-black flex items-center justify-center relative">
             {/* Simple pixelated mailbox representation */}
             <div className="absolute top-1/2 left-0 w-full h-1 bg-white" />

@@ -38,7 +38,7 @@ const experiences = [
 
 export function Experience() {
   return (
-    <section className="py-20 px-4 md:px-8 max-w-4xl mx-auto">
+    <section id="experience" className="py-20 px-4 md:px-8 max-w-4xl mx-auto">
       <div className="mb-16 text-center">
         <h2 className="font-['Press_Start_2P'] text-3xl md:text-4xl text-white inline-block border-b-4 border-[#00FF00] pb-4">
           QUEST LOG
