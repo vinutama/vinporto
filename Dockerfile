@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
+ENV BASE_PATH=/
 RUN pnpm build
 
 FROM nginx:alpine

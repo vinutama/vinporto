@@ -7,3 +7,4 @@ state.json
 .worktrees/
 .opencode/*
 opencode.json
+.pnpm-store
