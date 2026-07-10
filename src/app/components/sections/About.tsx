@@ -10,7 +10,7 @@ export function About() {
   ];
 
   return (
-    <section className="py-20 px-4 md:px-8 max-w-6xl mx-auto">
+    <section id="about" className="py-20 px-4 md:px-8 max-w-6xl mx-auto">
       <div className="mb-12">
         <h2 className="font-['Press_Start_2P'] text-3xl md:text-4xl text-white mb-4 flex items-center gap-4">
           <span className="text-[#00FF00]">{'>'}</span> INVENTORY: SKILLS

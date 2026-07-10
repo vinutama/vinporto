@@ -30,7 +30,7 @@ const projects = [
 
 export function Projects() {
   return (
-    <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+    <section id="projects" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
       <div className="mb-12 flex items-center justify-between">
         <h2 className="font-['Press_Start_2P'] text-3xl md:text-4xl text-white">
           ACHIEVEMENTS

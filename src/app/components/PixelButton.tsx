@@ -6,7 +6,7 @@ interface PixelButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 export function PixelButton({ children, className = "", variant = "primary", ...props }: PixelButtonProps) {
-  const baseClasses = "relative inline-flex items-center justify-center font-['Press_Start_2P'] text-[10px] md:text-xs uppercase tracking-widest px-6 py-4 border-4 transition-all active:translate-y-1 active:border-b-4";
+  const baseClasses = "relative inline-flex items-center justify-center font-['Press_Start_2P'] text-[10px] md:text-xs uppercase tracking-widest px-6 py-4 border-4 transition-all active:translate-y-1 active:border-b-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF00]";
   
   const variants = {
     primary: "bg-black text-[#00FF00] border-[#00FF00] hover:bg-[#00FF00] hover:text-black",
