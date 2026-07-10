@@ -11,7 +11,7 @@ export function Hero() {
           </div>
           
           <div className="space-y-4">
-            <h1 className="font-['Press_Start_2P'] text-4xl md:text-6xl text-white leading-tight whitespace-nowrap">
+            <h1 className="font-['Press_Start_2P'] text-xl sm:text-4xl md:text-6xl text-white leading-tight whitespace-nowrap">
               PLAYER 1: <span className="text-[#0099FF]">KHEVIN</span>
             </h1>
             <h2 className="font-['Press_Start_2P'] text-[#00FF00] text-xl md:text-2xl">
