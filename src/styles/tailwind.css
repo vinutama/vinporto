@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #00FF00;
+  --color-secondary: #0099FF;
+  --color-muted: #C0C0C0;
+  --color-bg: #000000;
+
+  --font-heading: "Press Start 2P", monospace;
+  --font-body: "VT323", monospace;
+}
