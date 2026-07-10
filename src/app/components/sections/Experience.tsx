@@ -50,7 +50,7 @@ export function Experience() {
           <div key={idx} className="relative">
             {/* Timeline node */}
             <div className="absolute -left-[42px] md:-left-[58px] top-4 w-6 h-6 md:w-8 md:h-8 bg-black border-4 border-[#00FF00] flex items-center justify-center z-10">
-              <div className="w-2 h-2 md:w-3 md:h-3 bg-[#00FF00] animate-pulse" />
+              <div className="w-2 h-2 md:w-3 md:h-3 bg-[#00FF00] motion-safe:animate-pulse" />
             </div>
 
             <PixelContainer variant={idx === 0 ? "primary" : "neutral"} className="w-full">
