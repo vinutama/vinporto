@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+state.json
+.opencode/goal-config.json
+.opencode/figma.env
+.worktrees/
+.opencode/*
+opencode.json
