@@ -25,7 +25,7 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap gap-4 pt-4">
-            <PixelButton variant="primary" onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}>START QUEST</PixelButton>
+            <PixelButton variant="primary" onClick={() => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' })}>START QUEST</PixelButton>
             <PixelButton variant="secondary" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>INVENTORY</PixelButton>
           </div>
         </div>
