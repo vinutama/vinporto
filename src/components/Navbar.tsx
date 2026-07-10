@@ -47,6 +47,7 @@ export function Navbar() {
           className="md:hidden text-zinc-100 p-2"
           onClick={() => setOpen(!open)}
           aria-label="Toggle navigation"
+          aria-expanded={open}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {open ? (
