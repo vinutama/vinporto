@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { PixelContainer } from "../PixelContainer";
-import fleetImg from "../../../assets/img_fleet.png";
+import fleetImg from "../../../assets/img_fleet.png"; // ponytail: 3.2MB PNG — fine for Vite-served builds; convert to WebP if page weight matters
 import orchImg from "../../../assets/img_orch.png";
 import wc26Img from "../../../assets/img_wc26.png";
 import landImg from "../../../assets/img_land.jpeg";
@@ -12,40 +12,35 @@ const projects = [
     stack: ["GO", "GRPC", "RABBITMQ", "POSTGRESQL"],
     description: "Real-time fleet management: 5,000+ GPS updates/5s across 100 queues, HMM/Viterbi map snapping, 7 safety anomaly detections, multi-level trip verification determining operator payment.",
     image: fleetImg,
-    imgPlaceholder: "IMG_FLEET.BMP"
   },
   {
     title: "DATA ORCHESTRATOR",
     stack: ["PYTHON", "FLASK", "CELERY", "HADOOP"],
     description: "No-code ETL platform: 16+ data source integrations, pause/retry/resume from any node, one-click transforms, custom Python-script injection. Deployed for hospital client automating financial pipelines.",
     image: orchImg,
-    imgPlaceholder: "IMG_ORCH.BMP"
   },
   {
     title: "WORLD CUP 2026",
     stack: ["GO", "REACT", "TAILWIND", "DOCKER"],
     description: "Analytics dashboard: historical results, live group standings, scorer leaderboards, knockout brackets, \"Chaos Zone\" goal clustering, predictive views. Built entirely via AI-native pipeline.",
     image: wc26Img,
-    imgPlaceholder: "IMG_WC26.BMP"
   },
   {
     title: "LAND VERIFICATION",
     stack: ["FLASK", "SQLALCHEMY", "MINIO"],
     description: "RBAC land-submission platform: multi-stage approval workflow, dynamic forms per role, automated image compression, dynamic PDF contract generation, full activity-log tracking.",
     image: landImg,
-    imgPlaceholder: "IMG_LAND.BMP"
   },
   {
     title: "SMART LAUNDRY",
     stack: ["NODE.JS", "EXPRESS", "NEXT.JS", "TAILWIND"],
     description: "Full-stack laundry dashboard: role-based auth, revenue analytics (daily avg, peak, trend, branch calendar views), IoT-ready machine management, merchant withdrawal system with real-time financial visibility.",
     image: laundryImg,
-    imgPlaceholder: "IMG_LAUNDRY.BMP"
   }
 ];
 
 export function Projects() {
-  const [zoomedImg, setZoomedImg] = useState<string | null>(null);
+  const [zoomedImg, setZoomedImg] = useState<{ src: string; title: string } | null>(null);
 
   useEffect(() => {
     if (!zoomedImg) return;
@@ -77,10 +72,10 @@ export function Projects() {
              style={{ 'scrollbar-width': 'thin', 'scrollbar-color': '#00FF00 #000' }}>
           {projects.map((project, idx) => (
             <PixelContainer key={idx} className="min-w-[300px] max-w-[380px] flex-shrink-0 snap-start group hover:-translate-y-2 transition-transform duration-200 cursor-pointer flex flex-col"
-              onClick={() => setZoomedImg(project.image)}
+              onClick={() => setZoomedImg({ src: project.image, title: project.title })}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setZoomedImg(project.image); } }}>
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setZoomedImg({ src: project.image, title: project.title }); } }}>
               <div className="w-full aspect-video bg-black border-4 border-[#C0C0C0] group-hover:border-[#00FF00] mb-4 relative overflow-hidden transition-colors">
                 <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
               </div>
@@ -123,7 +118,7 @@ export function Projects() {
             >
               [X]
             </button>
-            <img src={zoomedImg} alt="Project preview" className="w-full h-full object-contain" />
+            <img src={zoomedImg.src} alt={`${zoomedImg.title} screenshot`} className="w-full h-full object-contain" />
           </div>
         </div>
       )}

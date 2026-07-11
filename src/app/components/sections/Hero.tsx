@@ -33,7 +33,7 @@ export function Hero() {
 
         <div className="relative w-full aspect-square max-w-md mx-auto flex items-center justify-center">
           <div className="absolute inset-0 bg-[#0099FF]/20 border-4 border-[#0099FF] shadow-[0_0_30px_rgba(0,153,255,0.3)] overflow-hidden">
-            <img src={heroImg} alt="Muhammad Khevin Utama" className="w-full h-full object-cover" style={{ imageRendering: 'pixelated' }} />
+            <img src={heroImg} alt="Muhammad Khevin Utama" className="w-full h-full object-cover" />
           </div>
         </div>
       </div>
