@@ -1,5 +1,6 @@
 import React from "react";
 import { PixelButton } from "../PixelButton";
+import heroImg from "../../../assets/hero.jpg";
 
 export function Hero() {
   return (
@@ -31,13 +32,8 @@ export function Hero() {
         </div>
 
         <div className="relative w-full aspect-square max-w-md mx-auto flex items-center justify-center">
-          <div className="absolute inset-0 bg-[#0099FF]/20 border-4 border-[#0099FF] shadow-[0_0_30px_rgba(0,153,255,0.3)] flex items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(#0099FF 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
-            <div className="text-center space-y-4 z-10 p-6">
-               <div className="w-32 h-32 mx-auto border-4 border-[#C0C0C0] bg-black flex items-center justify-center">
-                 <span className="font-['Press_Start_2P'] text-2xl text-[#00FF00]">MKU</span>
-               </div>
-            </div>
+          <div className="absolute inset-0 bg-[#0099FF]/20 border-4 border-[#0099FF] shadow-[0_0_30px_rgba(0,153,255,0.3)] overflow-hidden">
+            <img src={heroImg} alt="Muhammad Khevin Utama" className="w-full h-full object-cover" style={{ imageRendering: 'pixelated' }} />
           </div>
         </div>
       </div>
