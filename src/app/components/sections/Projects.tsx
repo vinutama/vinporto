@@ -5,6 +5,7 @@ import orchImg from "../../../assets/img_orch.png";
 import wc26Img from "../../../assets/img_wc26.png";
 import landImg from "../../../assets/img_land.jpeg";
 import laundryImg from "../../../assets/img_laundry.jpeg";
+import docplantImg from "../../../assets/docplant.png";
 
 const projects = [
   {
@@ -36,7 +37,13 @@ const projects = [
     stack: ["NODE.JS", "EXPRESS", "NEXT.JS", "TAILWIND"],
     description: "Full-stack laundry dashboard: role-based auth, revenue analytics (daily avg, peak, trend, branch calendar views), IoT-ready machine management, merchant withdrawal system with real-time financial visibility.",
     image: laundryImg,
-  }
+  },
+  {
+    title: "DOCPLANT",
+    stack: ["REACT NATIVE", "EXPO", "NODE.JS", "MONGODB", "PYTHON", "PYTORCH"],
+    description: "Mobile plant disease diagnostics platform featuring a dual-service backend. Integrates a Python/Flask microservice running a custom PyTorch deep learning model for real-time visual anomaly prediction alongside a Node.js API powering community forums and automated YouTube learning recommendations.",
+    image: docplantImg,
+  },
 ];
 
 export function Projects() {
