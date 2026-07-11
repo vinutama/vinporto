@@ -108,7 +108,7 @@ export function Projects() {
           aria-modal="true"
           aria-label="Image preview"
         >
-          <div className="border-4 border-[#00FF00] bg-black p-8 max-w-2xl w-full mx-4 aspect-video relative"
+          <div className="border-4 border-[#00FF00] bg-black p-2 md:p-4 max-w-[95vw] w-full mx-4 max-h-[90vh] flex items-center justify-center relative"
                onClick={e => e.stopPropagation()}>
             <button
               className="absolute -top-3 -right-3 text-white bg-black border-2 border-[#00FF00] w-8 h-8 flex items-center justify-center font-['Press_Start_2P'] text-sm"
@@ -118,7 +118,7 @@ export function Projects() {
             >
               [X]
             </button>
-            <img src={zoomedImg.src} alt={`${zoomedImg.title} screenshot`} className="w-full h-full object-contain" />
+            <img src={zoomedImg.src} alt={`${zoomedImg.title} screenshot`} className="max-w-full max-h-[85vh] object-contain" />
           </div>
         </div>
       )}
