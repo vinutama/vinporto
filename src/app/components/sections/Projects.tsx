@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { PixelContainer } from "../PixelContainer";
 
 const projects = [
@@ -25,10 +25,31 @@ const projects = [
     stack: ["FLASK", "SQLALCHEMY", "MINIO"],
     description: "RBAC land-submission platform: multi-stage approval workflow, dynamic forms per role, automated image compression, dynamic PDF contract generation, full activity-log tracking.",
     imgPlaceholder: "IMG_LAND.BMP"
+  },
+  {
+    title: "SMART LAUNDRY",
+    stack: ["NODE.JS", "EXPRESS", "NEXT.JS", "TAILWIND"],
+    description: "Full-stack laundry dashboard: role-based auth, revenue analytics (daily avg, peak, trend, branch calendar views), IoT-ready machine management, merchant withdrawal system with real-time financial visibility.",
+    imgPlaceholder: "IMG_LAUNDRY.BMP"
   }
 ];
 
 export function Projects() {
+  const [zoomedImg, setZoomedImg] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!zoomedImg) return;
+    document.body.style.overflow = 'hidden';
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setZoomedImg(null);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [zoomedImg]);
+
   return (
     <section id="projects" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
       <div className="mb-12 flex items-center justify-between">
@@ -38,34 +59,69 @@ export function Projects() {
         <div className="hidden md:block flex-1 h-1 bg-[#0099FF] ml-8" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8">
-        {projects.map((project, idx) => (
-          <PixelContainer key={idx} className="group hover:-translate-y-2 transition-transform duration-200 cursor-pointer flex flex-col">
-            <div className="w-full aspect-video bg-black border-4 border-[#C0C0C0] group-hover:border-[#00FF00] mb-4 flex items-center justify-center relative overflow-hidden transition-colors">
-               <div className="absolute inset-0 bg-[#C0C0C0]/10 group-hover:bg-[#00FF00]/10" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)', backgroundSize: '8px 8px', backgroundPosition: '0 0, 4px 4px', opacity: 0.2 }} />
-               <p className="font-['Press_Start_2P'] text-[10px] text-[#C0C0C0] group-hover:text-[#00FF00] z-10 transition-colors">
-                 [{project.imgPlaceholder}]
-               </p>
-            </div>
-            
-            <h3 className="font-['Press_Start_2P'] text-sm md:text-base text-white mb-3 group-hover:text-[#00FF00] transition-colors">
-              {project.title}
-            </h3>
-            
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.stack.map((tech, i) => (
-                <span key={i} className="font-['VT323'] text-lg text-black bg-[#00FF00] px-2 py-0.5 uppercase tracking-wider">
-                  {tech}
-                </span>
-              ))}
-            </div>
-            
-            <p className="font-['VT323'] text-xl text-[#C0C0C0] leading-snug flex-1">
-              {project.description}
-            </p>
-          </PixelContainer>
-        ))}
+      <div className="relative">
+        {/* ponytail: right fade only is enough to hint at scrollable content */}
+        <div className="pointer-events-none absolute right-0 top-0 bottom-4 w-16 bg-gradient-to-l from-black to-transparent z-10" />
+        
+        <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-pl-4 px-4 pb-4 -mx-4 md:-mx-8"
+             style={{ 'scrollbar-width': 'thin', 'scrollbar-color': '#00FF00 #000' }}>
+          {projects.map((project, idx) => (
+            <PixelContainer key={idx} className="min-w-[300px] max-w-[380px] flex-shrink-0 snap-start group hover:-translate-y-2 transition-transform duration-200 cursor-pointer flex flex-col">
+              <div className="w-full aspect-video bg-black border-4 border-[#C0C0C0] group-hover:border-[#00FF00] mb-4 flex items-center justify-center relative overflow-hidden transition-colors"
+                   onClick={() => setZoomedImg(project.imgPlaceholder)}
+                   role="button"
+                   tabIndex={0}
+                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setZoomedImg(project.imgPlaceholder); } }}>
+                 <div className="absolute inset-0 bg-[#C0C0C0]/10 group-hover:bg-[#00FF00]/10" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)', backgroundSize: '8px 8px', backgroundPosition: '0 0, 4px 4px', opacity: 0.2 }} />
+                 <p className="font-['Press_Start_2P'] text-[10px] text-[#C0C0C0] group-hover:text-[#00FF00] z-10 transition-colors">
+                   [{project.imgPlaceholder}]
+                 </p>
+              </div>
+              
+              <h3 className="font-['Press_Start_2P'] text-sm md:text-base text-white mb-3 group-hover:text-[#00FF00] transition-colors">
+                {project.title}
+              </h3>
+              
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.stack.map((tech, i) => (
+                  <span key={i} className="font-['VT323'] text-lg text-black bg-[#00FF00] px-2 py-0.5 uppercase tracking-wider">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              
+              <p className="font-['VT323'] text-xl text-[#C0C0C0] leading-snug flex-1">
+                {project.description}
+              </p>
+            </PixelContainer>
+          ))}
+        </div>
       </div>
+
+      {zoomedImg && (
+        <div
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+          onClick={() => setZoomedImg(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
+        >
+          <div className="border-4 border-[#00FF00] bg-black p-8 max-w-2xl w-full mx-4 aspect-video relative"
+               onClick={e => e.stopPropagation()}>
+            <button
+              className="absolute -top-3 -right-3 text-white bg-black border-2 border-[#00FF00] w-8 h-8 flex items-center justify-center font-['Press_Start_2P'] text-sm"
+              onClick={() => setZoomedImg(null)}
+              aria-label="Close preview"
+              autoFocus
+            >
+              [X]
+            </button>
+            <p className="font-['Press_Start_2P'] text-lg text-[#00FF00] flex items-center justify-center h-full">
+              [{zoomedImg}]
+            </p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
