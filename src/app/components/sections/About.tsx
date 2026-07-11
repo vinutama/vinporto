@@ -4,9 +4,11 @@ import { PixelContainer } from "../PixelContainer";
 export function About() {
   const skills = [
     { category: "WEAPONS (TECH)", items: ["Go (Gin, GORM)", "Python (Flask, Celery)", "Node.js (Express, NestJS)", "TypeScript", "SQL", "NoSQL"] },
-    { category: "ARCHITECTURE", items: ["Microservices", "Event-Driven", "gRPC", "REST APIs", "TDD", "RBAC"] },
-    { category: "INFRA & DATA", items: ["Docker", "GCP", "AWS", "RabbitMQ", "Kafka", "Redis", "Airflow", "PostgreSQL", "TimescaleDB", "MongoDB"] },
-    { category: "FRONTEND", items: ["React", "Next.js", "TypeScript (TSX)", "Tailwind CSS"] },
+    { category: "BLUEPRINTS (ARCH & COMMS)", items: ["Microservices", "Event-Driven", "gRPC", "REST APIs", "TDD", "RBAC", "Apache Kafka", "Websocket", "Eclipse Mosquitto"] },
+    { category: "WORLD MAP (INFRA)", items: ["Docker", "GCP", "CI/CD", "AWS", "Linux"] },
+    { category: "MANA VAULT (DATA)", items: ["RabbitMQ", "Redis", "Airflow", "PostgreSQL", "TimescaleDB", "MongoDB", "MinIO", "GCS"] },
+    { category: "HUD & DISPLAY (FRONTEND)", items: ["React", "Next.js", "TypeScript (JSX,TSX)", "Tailwind CSS"] },
+    { category: "BADGES (CERTS)", items: ["Google Go Specialization (Coursera)", "GCP Associate Cloud Engineer (Google Cloud)", "Fullstack Javascript Immersive (Hacktiv8)", "EF SET English (C1 Advanced)"] },
   ];
 
   return (
