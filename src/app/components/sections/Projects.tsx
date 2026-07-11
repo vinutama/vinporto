@@ -6,6 +6,7 @@ import wc26Img from "../../../assets/img_wc26.png";
 import landImg from "../../../assets/img_land.jpeg";
 import laundryImg from "../../../assets/img_laundry.jpeg";
 import docplantImg from "../../../assets/docplant.png";
+import kanbanzaiImg from "../../../assets/kanbanzai.png";
 
 const projects = [
   {
@@ -43,6 +44,12 @@ const projects = [
     stack: ["REACT NATIVE", "EXPO", "NODE.JS", "MONGODB", "PYTHON", "PYTORCH"],
     description: "Mobile plant disease diagnostics platform featuring a dual-service backend. Integrates a Python/Flask microservice running a custom PyTorch deep learning model for real-time visual anomaly prediction alongside a Node.js API powering community forums and automated YouTube learning recommendations.",
     image: docplantImg,
+  },
+  {
+    title: "KANBANZAI",
+    stack: ["REACT", "NODE.JS", "SOCKET.IO", "POSTGRESQL"],
+    description: "Real-time Kanban board with drag-and-drop, team collaboration, sprint planning, burndown charts, and automated workflow triggers. Features live sync across sessions with optimistic UI updates and conflict resolution.",
+    image: kanbanzaiImg,
   },
 ];
 
