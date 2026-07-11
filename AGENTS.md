@@ -16,15 +16,18 @@ Optionally run `/init-skills` to inject curated skills from
 [agentic-awesome-skills](https://github.com/sickn33/agentic-awesome-skills)
 into `.opencode/skills/` (project-level, filtered by category and risk).
 Use the **recommended** preset to install skills that goal-loop agents look for.
-Each agent auto-uses related skills when installed; if a skill is absent, the
-agent proceeds normally.
+Each agent loads related skills via OpenCode's native `skill` tool
+(`skill({ name: "<skill-name>" })`) when they appear in `available_skills`.
+Do not use `@mentions` or manually read `.opencode/skills/*/SKILL.md`.
+If a skill is absent, the agent proceeds normally. Re-run `/init-skills` with
+**recommended** (includes `development`) to install skills like `api-endpoint-builder`.
 
 | Agent | Related skills (when installed) |
 |---|---|
 | `orchestrator` | `parallel-agents`, `multi-agent-patterns`, `verification-before-completion` |
 | `planner` | `brainstorming`, `concise-planning`, `writing-plans`, `architecture` |
-| `builder` | `test-driven-development`, `lint-and-validate`, `error-handling-patterns` |
-| `builder-expert` | `systematic-debugging`, `test-driven-development`, `lint-and-validate`, `architecture`, `error-handling-patterns` |
+| `builder` | `test-driven-development`, `lint-and-validate`, `error-handling-patterns`, `api-endpoint-builder` |
+| `builder-expert` | `systematic-debugging`, `test-driven-development`, `lint-and-validate`, `architecture`, `error-handling-patterns`, `api-endpoint-builder` |
 | `reviewer` | `code-review-excellence`, `verification-before-completion`, `api-security-best-practices`, `systematic-debugging` |
 | `visual-reviewer` | `wcag-audit-patterns`, `frontend-design`, `webapp-testing` |
 
@@ -157,12 +160,17 @@ Launch OpenCode with Figma secrets loaded:
 - Builders must finish with a structured **Handoff** (`status`, `files_staged`, `analyze`, `notes`)
   after staging changes and passing `goal-git.sh analyze`. They do not commit or push.
 - After a builder returns `FIXES_COMPLETE`, the orchestrator **immediately** resumes —
-  no user input — with ANALYZE → commit → push → re-review. Never idle in REVIEW LOOP.
+  no user input — with ANALYZE → commit → push → **mandatory re-delegate reviewers**.
+  Never idle in REVIEW LOOP. Never skip re-review because `pending` is already 0.
+- **Only reviewers resolve threads** — the orchestrator must never run
+  `goal-git.sh resolve` or `goal-git.sh comment`. Reviewers resolve after confirming fixes.
 - After code changes, run `.opencode/scripts/goal-git.sh analyze` (gitnexus + rtk gain).
   If it fails, STOP.
 - Reviewers post inline comments on the PR/MR and **must** resolve fixed threads via
-  `goal-git.sh resolve` before claiming LGTM. Each pass ends with a structured
-  **Review report** (`threads_resolved`, `comments_posted`, `remaining_unresolved`, `verdict`).
+  `goal-git.sh resolve <thread-id>` (GraphQL id from `threads`, e.g. `PRRT_...`) with
+  **exit 0** before claiming LGTM. **`outdated: true` is not resolved** — only `resolved: true`
+  after a successful `resolve` call counts as clean. `goal-git.sh resolve` fails loudly on GraphQL/API errors.
+  Each pass ends with a structured **Review report** (`threads_resolved`, `comments_posted`, `remaining_unresolved`, `verdict`).
 - For UI/visual goals, the planner requires `@visual-reviewer`; the orchestrator always
   delegates visual review when the plan says so, Figma is enabled, or UI files changed.
 - Run `.opencode/scripts/goal-git.sh pending` to check PR threads.
@@ -183,50 +191,53 @@ visual-reviewer consult Figma for UI work. Use `run-opencode.sh` to load secrets
 
 ## Available skills
 
-- `goal-loop` — Goal Architecture Loop Engineering — a persistent workflow pattern where an
-- `agenttrace-session-audit` — Audit local AI coding-agent sessions with agenttrace for cost, tool failures, latency, anomalies, health, diffs, and CI gates.
+- `agenttrace-session-audit` — "Audit local AI coding-agent sessions with agenttrace for cost, tool failures, latency, anomalies, health, diffs, and CI gates."
 - `ai-loop` — Runs a bounded spec-build-review development loop with explicit scope, stop conditions, and human approval gates for risky or ambiguous work.
-- `api-endpoint-builder` — Builds production-ready REST API endpoints with validation, error handling, authentication, and documentation.
-- `audit-skills` — Expert security auditor for AI Skills and Bundles performing non-intrusive static analysis.
-- `ax-extract-workflow` — Reconstruct workflow behind a past coding-agent artifact using local ax sessions/commits/skills/tool traces.
-- `brooks-lint` — AI code reviewer grounded in classic software engineering books for catching design smells, coupling issues, and architectural risks.
-- `bug-hunter` — Systematically finds and fixes bugs using proven debugging techniques.
-- `bumblebee` — Run Bumblebee supply-chain inventory and exposure scans on macOS/Linux to detect compromised packages, extensions, and MCP host configs.
-- `codebase-audit-pre-push` — Deep audit before GitHub push: removes junk files, dead code, security holes, and optimization issues.
-- `codebase-design` — Shared vocabulary for designing deep modules.
-- `container-security-hardening` — Container security hardening.
-- `crossframe` — CrossFrame for Chinese-canonical structural diagnosis of complex relationships, organizations, institutions, public disputes, or long-term evolution.
-- `cyber-audit` — Run read-only exposure checks for security advisories and write a structured local audit report.
-- `diagnosing-bugs` — Diagnosis loop for hard bugs and performance regressions.
-- `domain-modeling` — Build and sharpen a project's domain model.
-- `ecl-harness-engineer` — Create or audit ECL Agent Harness infrastructure.
-- `effective-agent-skills` — Author and review high-quality agent skills with triggers, progressive disclosure, and safety notes.
-- `fsi-compliance-checker` — Maps code, architecture, and infrastructure changes to specific control IDs in PCI-DSS v4.0 and MAS TRM.
-- `global-chat-agent-discovery` — Discover and search 18K+ MCP servers and AI agents across 6+ registries.
-- `improve-codebase-architecture` — Scan a codebase for deepening opportunities, present as a visual HTML report.
-- `jq` — Expert jq usage for JSON querying, filtering, transformation, and pipeline integration.
-- `k6-load-testing` — Comprehensive k6 load testing skill for API, browser, and scalability testing.
-- `lambdatest-agent-skills` — Production-grade test automation skills for 46 frameworks across E2E, unit, mobile, BDD, visual, and cloud testing.
-- `logic-lens` — Deep code review using formal logic and reasoning frameworks to detect bugs, anti-patterns, and security risks.
-- `performance-optimizer` — Identifies and fixes performance bottlenecks in code, databases, and APIs.
-- `pr-merge-champion` — Optimize pull requests for quick approval and merging.
-- `prototype` — Build a throwaway prototype to flesh out a design.
-- `python-pptx-generator` — Generate complete Python scripts that build polished PowerPoint decks.
-- `rayden-code` — Generate React code with Rayden UI components.
-- `setup-matt-pocock-skills` — Configure this repo for engineering skills.
-- `skill-audit` — Pre-install security scanner for AI agent skills.
-- `skill-check` — Validate Claude Code skills against the agentskills specification.
-- `squirrel` — Full-cycle AI coding skill: plans, builds, tests, lints, fixes bugs, and writes production-grade docs.
-- `tdd` — Test-driven development.
-- `technical-change-tracker` — Track code changes with structured JSON records and state machine enforcement.
-- `tmux` — Expert tmux session, window, and pane management.
-- `tree-ring-memory` — Local-first AI-agent memory lifecycle management.
-- `triage` — Move issues and external PRs through a state machine of triage roles.
+- `api-endpoint-builder` — "Builds production-ready REST API endpoints with validation, error handling, authentication, and documentation. Follows best practices for security and scalability."
+- `audit-skills` — "Expert security auditor for AI Skills and Bundles. Performs non-intrusive static analysis to identify malicious patterns, data leaks, system stability risks, and obfuscated payloads across Windows, macOS, Linux/Unix, and Mobile (Android/iOS)."
+- `ax-extract-workflow` — "Reconstruct workflow behind a past coding-agent artifact using local ax sessions/commits/skills/tool traces. Use when asked how X was built."
+- `brooks-lint` — "AI code reviewer grounded in classic software engineering books for catching design smells, coupling issues, and architectural risks."
+- `bug-hunter` — "Systematically finds and fixes bugs using proven debugging techniques. Traces from symptoms to root cause, implements fixes, and prevents regression."
+- `bumblebee` — "Run Bumblebee supply-chain inventory and exposure scans on macOS/Linux to detect compromised packages, extensions, and MCP host configs."
+- `codebase-audit-pre-push` — "Deep audit before GitHub push: removes junk files, dead code, security holes, and optimization issues. Checks every file line-by-line for production readiness."
+- `codebase-design` — Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.
+- `container-security-hardening` — Harden Docker/container images and runtime deployments with secure base images,
+- `crossframe-public` — "Use when CrossFrame Suite routes explicit Chinese analysis of public issues, platform governance, policy, institutional responsibility, appeals, or compliance evidence."
+- `crossframe-review` — "Use when explicit CrossFrame output needs review for reasoning fidelity, evidence boundaries, source anchors, concept drift, article collapse, or repair steps."
+- `crossframe-suite` — "Use when the user explicitly invokes CrossFrame Suite for Chinese structural diagnosis workflows across relationships, organizations, public issues, philosophy, research, or essay output."
+- `crossframe` — "Use when the user explicitly invokes CrossFrame or 跨尺度结构诊断 for Chinese-canonical structural diagnosis of complex relationships, organizations, institutions, public disputes, or long-term evolution."
+- `cyber-audit` — "Run read-only exposure checks for security advisories and write a structured local audit report."
+- `diagnosing-bugs` — Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debug this", or reports something broken/throwing/failing/slow.
+- `domain-modeling` — Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.
+- `ecl-harness-engineer` — "Create or audit ECL Agent Harness infrastructure: AGENTS.md, change tracking, repository guidance, lint checks, CI gates, and agent handoff docs."
+- `effective-agent-skills` — "Author and review high-quality agent skills with triggers, progressive disclosure, and safety notes."
+- `fsi-compliance-checker` — "Maps code, architecture, and infrastructure changes to specific control IDs in PCI-DSS v4.0 and MAS TRM (Singapore financial regulator), producing an audit-traceable findings report with per-control remediation."
+- `global-chat-agent-discovery` — "Discover and search 18K+ MCP servers and AI agents across 6+ registries using Global Chat's cross-protocol directory and MCP server."
+- `goal-loop` — Goal Architecture Loop Engineering — a persistent workflow pattern where an
+- `improve-codebase-architecture` — Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
+- `jq` — "Expert jq usage for JSON querying, filtering, transformation, and pipeline integration. Practical patterns for real shell workflows."
+- `k6-load-testing` — "Comprehensive k6 load testing skill for API, browser, and scalability testing. Write realistic load scenarios, analyze results, and integrate with CI/CD."
+- `lambdatest-agent-skills` — "Production-grade test automation skills for 46 frameworks across E2E, unit, mobile, BDD, visual, and cloud testing in 15+ languages."
+- `logic-lens` — "AI-powered Claude Code skill that performs deep code review using formal logic and reasoning frameworks to detect bugs, anti-patterns, and security risks beyond what linters catch."
+- `performance-optimizer` — "Identifies and fixes performance bottlenecks in code, databases, and APIs. Measures before and after to prove improvements."
+- `pr-merge-champion` — "Optimize pull requests for quick approval and merging by ensuring clean diffs, comprehensive self-reviews, and structured documentation."
+- `prototype` — Build a throwaway prototype to flesh out a design — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route.
+- `python-pptx-generator` — "Generate complete Python scripts that build polished PowerPoint decks with python-pptx and real slide content."
+- `rayden-code` — Generate React code with Rayden UI components using correct props, tokens, and premium layout patterns
+- `setup-matt-pocock-skills` — Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills.
+- `skill-audit` — "Pre-install security scanner for AI agent skills. 7.5% of 14,706 skills are malicious. Audit before you trust."
+- `skill-check` — "Validate Claude Code skills against the agentskills specification. Catches structural, semantic, and naming issues before users do."
+- `squirrel` — "Full-cycle AI coding skill: plans, builds, tests, lints, fixes bugs, and writes production-grade docs. Auto-detects project state and adapts its 8-phase pipeline."
+- `tdd` — Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", or wants integration tests.
+- `technical-change-tracker` — "Track code changes with structured JSON records, state machine enforcement, and AI session handoff for bot continuity"
+- `tmux` — "Expert tmux session, window, and pane management for terminal multiplexing, persistent remote workflows, and shell scripting automation."
+- `tree-ring-memory` — "Use Tree Ring Memory for local-first AI-agent memory lifecycle work: recall, evidence, audit, forgetting, and consolidation without transcript dumping."
+- `triage` — Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs.
 
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **vinporto** (119 symbols, 147 relationships, 4 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **vinporto** (121 symbols, 148 relationships, 4 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > Index stale? Run `node .gitnexus/run.cjs analyze` from the project root — it auto-selects an available runner. No `.gitnexus/run.cjs` yet? `npx gitnexus analyze` (npm 11 crash → `npm i -g gitnexus`; #1939).
 
