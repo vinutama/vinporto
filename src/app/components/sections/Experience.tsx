@@ -19,8 +19,8 @@ const experiences = [
     date: "Apr 2022 – Apr 2024",
     bullets: [
       "Led 2 backend engineers with code reviews and onboarding docs.",
-      "Architected no-code ETL orchestration platform modeled on Apache Airflow.",
-      "Integrated 16+ data sources (S3, Kafka, Hadoop, PostgreSQL, Salesforce).",
+      "Architected no-code ETL orchestration platform modeled on Apache Airflow. Used across more than 20 divisions.",
+      "Integrated 16+ data sources (S3, Kafka, Hadoop, PostgreSQL, Salesforce, Google BigQuery, ADLS, Cosmos DB, GCS, Oracle).",
       "Delivered end-to-end ETL for hospital client (RS Harapan Kita)."
     ]
   },
@@ -31,7 +31,8 @@ const experiences = [
     bullets: [
       "Built Flask APIs under strict TDD with Python unittest.",
       "Owned CI/CD pipelines end-to-end: deployment, production releases, incident response.",
-      "Partnered with PM, Frontend, DevOps on API contracts and third-party integrations."
+      "Partnered with PM, Frontend, DevOps on API contracts and third-party integrations.",
+      "Built a Hospital Information System deployed on Kubernetes, used daily by more than 30 internal hospital staff."
     ]
   }
 ];
@@ -67,7 +68,7 @@ export function Experience() {
                   {exp.date}
                 </div>
               </div>
-              
+
               <ul className="space-y-3 mt-4">
                 {exp.bullets.map((bullet, i) => (
                   <li key={i} className="flex items-start font-['VT323'] text-xl md:text-2xl text-[#C0C0C0]">
