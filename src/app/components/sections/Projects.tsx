@@ -60,16 +60,18 @@ export function Projects() {
       </div>
 
       <div className="relative">
-        {/* ponytail: fade indicators hint at scrollable content */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-4 w-16 bg-gradient-to-r from-black to-transparent z-10" />
+        {/* ponytail: right fade only is enough to hint at scrollable content */}
         <div className="pointer-events-none absolute right-0 top-0 bottom-4 w-16 bg-gradient-to-l from-black to-transparent z-10" />
         
         <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-pl-4 px-4 pb-4 -mx-4 md:-mx-8"
-             style={{ scrollbarWidth: 'thin', scrollbarColor: '#00FF00 #000' }}>
+             style={{ 'scrollbar-width': 'thin', 'scrollbar-color': '#00FF00 #000' }}>
           {projects.map((project, idx) => (
             <PixelContainer key={idx} className="min-w-[300px] max-w-[380px] flex-shrink-0 snap-start group hover:-translate-y-2 transition-transform duration-200 cursor-pointer flex flex-col">
               <div className="w-full aspect-video bg-black border-4 border-[#C0C0C0] group-hover:border-[#00FF00] mb-4 flex items-center justify-center relative overflow-hidden transition-colors"
-                   onClick={() => setZoomedImg(project.imgPlaceholder)}>
+                   onClick={() => setZoomedImg(project.imgPlaceholder)}
+                   role="button"
+                   tabIndex={0}
+                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setZoomedImg(project.imgPlaceholder); } }}>
                  <div className="absolute inset-0 bg-[#C0C0C0]/10 group-hover:bg-[#00FF00]/10" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)', backgroundSize: '8px 8px', backgroundPosition: '0 0, 4px 4px', opacity: 0.2 }} />
                  <p className="font-['Press_Start_2P'] text-[10px] text-[#C0C0C0] group-hover:text-[#00FF00] z-10 transition-colors">
                    [{project.imgPlaceholder}]
@@ -100,12 +102,17 @@ export function Projects() {
         <div
           className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
           onClick={() => setZoomedImg(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
         >
           <div className="border-4 border-[#00FF00] bg-black p-8 max-w-2xl w-full mx-4 aspect-video relative"
                onClick={e => e.stopPropagation()}>
             <button
               className="absolute -top-3 -right-3 text-white bg-black border-2 border-[#00FF00] w-8 h-8 flex items-center justify-center font-['Press_Start_2P'] text-sm"
               onClick={() => setZoomedImg(null)}
+              aria-label="Close preview"
+              autoFocus
             >
               [X]
             </button>
