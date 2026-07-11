@@ -32,7 +32,8 @@ const experiences = [
       "Built Flask APIs under strict TDD with Python unittest.",
       "Owned CI/CD pipelines end-to-end: deployment, production releases, incident response.",
       "Partnered with PM, Frontend, DevOps on API contracts and third-party integrations.",
-      "Built a Hospital Information System deployed on Kubernetes, used daily by more than 30 internal hospital staff."
+      "Built a Hospital Information System deployed on Kubernetes, used daily by more than 30 internal hospital staff.",
+      "Integrated service monitoring using Sentry."
     ]
   }
 ];
