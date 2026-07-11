@@ -1,41 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { PixelContainer } from "../PixelContainer";
+import fleetImg from "../../../assets/img_fleet.png"; // ponytail: 3.2MB PNG — fine for Vite-served builds; convert to WebP if page weight matters
+import orchImg from "../../../assets/img_orch.png";
+import wc26Img from "../../../assets/img_wc26.png";
+import landImg from "../../../assets/img_land.jpeg";
+import laundryImg from "../../../assets/img_laundry.jpeg";
 
 const projects = [
   {
     title: "FLEET COMMAND",
     stack: ["GO", "GRPC", "RABBITMQ", "POSTGRESQL"],
     description: "Real-time fleet management: 5,000+ GPS updates/5s across 100 queues, HMM/Viterbi map snapping, 7 safety anomaly detections, multi-level trip verification determining operator payment.",
-    imgPlaceholder: "IMG_FLEET.BMP"
+    image: fleetImg,
   },
   {
     title: "DATA ORCHESTRATOR",
     stack: ["PYTHON", "FLASK", "CELERY", "HADOOP"],
     description: "No-code ETL platform: 16+ data source integrations, pause/retry/resume from any node, one-click transforms, custom Python-script injection. Deployed for hospital client automating financial pipelines.",
-    imgPlaceholder: "IMG_ORCH.BMP"
+    image: orchImg,
   },
   {
     title: "WORLD CUP 2026",
     stack: ["GO", "REACT", "TAILWIND", "DOCKER"],
     description: "Analytics dashboard: historical results, live group standings, scorer leaderboards, knockout brackets, \"Chaos Zone\" goal clustering, predictive views. Built entirely via AI-native pipeline.",
-    imgPlaceholder: "IMG_WC26.BMP"
+    image: wc26Img,
   },
   {
     title: "LAND VERIFICATION",
     stack: ["FLASK", "SQLALCHEMY", "MINIO"],
     description: "RBAC land-submission platform: multi-stage approval workflow, dynamic forms per role, automated image compression, dynamic PDF contract generation, full activity-log tracking.",
-    imgPlaceholder: "IMG_LAND.BMP"
+    image: landImg,
   },
   {
     title: "SMART LAUNDRY",
     stack: ["NODE.JS", "EXPRESS", "NEXT.JS", "TAILWIND"],
     description: "Full-stack laundry dashboard: role-based auth, revenue analytics (daily avg, peak, trend, branch calendar views), IoT-ready machine management, merchant withdrawal system with real-time financial visibility.",
-    imgPlaceholder: "IMG_LAUNDRY.BMP"
+    image: laundryImg,
   }
 ];
 
 export function Projects() {
-  const [zoomedImg, setZoomedImg] = useState<string | null>(null);
+  const [zoomedImg, setZoomedImg] = useState<{ src: string; title: string } | null>(null);
 
   useEffect(() => {
     if (!zoomedImg) return;
@@ -66,16 +71,13 @@ export function Projects() {
         <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-pl-4 px-4 pb-4 -mx-4 md:-mx-8"
              style={{ 'scrollbar-width': 'thin', 'scrollbar-color': '#00FF00 #000' }}>
           {projects.map((project, idx) => (
-            <PixelContainer key={idx} className="min-w-[300px] max-w-[380px] flex-shrink-0 snap-start group hover:-translate-y-2 transition-transform duration-200 cursor-pointer flex flex-col">
-              <div className="w-full aspect-video bg-black border-4 border-[#C0C0C0] group-hover:border-[#00FF00] mb-4 flex items-center justify-center relative overflow-hidden transition-colors"
-                   onClick={() => setZoomedImg(project.imgPlaceholder)}
-                   role="button"
-                   tabIndex={0}
-                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setZoomedImg(project.imgPlaceholder); } }}>
-                 <div className="absolute inset-0 bg-[#C0C0C0]/10 group-hover:bg-[#00FF00]/10" style={{ backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)', backgroundSize: '8px 8px', backgroundPosition: '0 0, 4px 4px', opacity: 0.2 }} />
-                 <p className="font-['Press_Start_2P'] text-[10px] text-[#C0C0C0] group-hover:text-[#00FF00] z-10 transition-colors">
-                   [{project.imgPlaceholder}]
-                 </p>
+            <PixelContainer key={idx} className="min-w-[300px] max-w-[380px] flex-shrink-0 snap-start group hover:-translate-y-2 transition-transform duration-200 cursor-pointer flex flex-col"
+              onClick={() => setZoomedImg({ src: project.image, title: project.title })}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setZoomedImg({ src: project.image, title: project.title }); } }}>
+              <div className="w-full aspect-video bg-black border-4 border-[#C0C0C0] group-hover:border-[#00FF00] mb-4 relative overflow-hidden transition-colors">
+                <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
               </div>
               
               <h3 className="font-['Press_Start_2P'] text-sm md:text-base text-white mb-3 group-hover:text-[#00FF00] transition-colors">
@@ -116,9 +118,7 @@ export function Projects() {
             >
               [X]
             </button>
-            <p className="font-['Press_Start_2P'] text-lg text-[#00FF00] flex items-center justify-center h-full">
-              [{zoomedImg}]
-            </p>
+            <img src={zoomedImg.src} alt={`${zoomedImg.title} screenshot`} className="w-full h-full object-contain" />
           </div>
         </div>
       )}
